@@ -5,7 +5,7 @@ import { Card, CardContent, CardActionArea, Typography, Grid, Container, Alert, 
 
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EventIcon from '@mui/icons-material/Event';
-import img1 from '../../Assest/noevent.png'
+import img1 from '../../Asset/noevent.png'
 
 
 const EventList = () => {
