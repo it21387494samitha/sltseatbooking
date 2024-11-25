@@ -10,9 +10,7 @@ passport.use(new GoogleStrategy({
     scope: ['profile', 'email'] // Request profile and email scopes
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        console.log('Google Profile:', profile); // Log the full profile object
-
-
+        console.log('Google Profile:', profile); // Log the full profile objec
 
         let user = await User.findOne({ googleId: profile.id });
         if (!user) {
