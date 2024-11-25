@@ -1,4 +1,3 @@
-// Routers/AuthRoutes.js
 import express from 'express';
 import { google, signOut, signin, signup } from '../Controllers/AuthController.js';
 
@@ -9,6 +8,6 @@ import { google, signOut, signin, signup } from '../Controllers/AuthController.j
  router.post("/signin",signin);
  router.post('/google',google);
  router.get('/signout',signOut);
-
+            
 
 export default router;
