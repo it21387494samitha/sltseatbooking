@@ -1,6 +1,6 @@
 import express from 'express';
 import VerifyToken from '../Middleware/VerifyToken.js'; 
-import { getAllUsers, getUserProfile,  RegisterUser,  UserLogin } from '../Controllers/UserController.js'; 
+import { getAllUsers, getUserProfile,Login,Register } from '../Controllers/UserController.js'; 
 import multer from 'multer';
           
 
@@ -11,8 +11,8 @@ const upload = multer({ dest: 'uploads/' });
 
 
 // Public routes
-router.post('/register', RegisterUser); 
-router.post('/login',UserLogin);     
+router.post('/register', Register); 
+router.post('/login',Login);     
 router.get('/all', getAllUsers);
 
 
