@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
-import { Link} from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import './Login.css';
@@ -9,19 +10,41 @@ import './Login.css';
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
 
   const handleGoogleLogin = () => {
-    window.open('http://localhost:5000/auth/google', '_self');
+    window.open('https://newsltazure.azurewebsites.net/auth/google', '_self');
 
   };
 
   const handleEmailLogin = async () => {
+    setLoading(true);
+    setErrorMessage('');
 
-  };
+    try {
+      const response = await axios.post('http://localhost:5000/users/login', {
+        email,
+        password,
+      });
+
+      // Store token and navigate
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+
+      alert('Login successful');
+      navigate('/dashboard'); // Redirect to dashboard or desired page
+    } catch (error) {
+      console.error('Login error:', error.response?.data?.message || error.message);
+
+    } finally {
+      setLoading(false);
+    }
+
+  }
 
   return (
     <div className="relative flex items-center justify-center min-h-screen w-full bg-cover bg-center" style={{ backgroundImage: `url('https://images.pexels.com/photos/28291092/pexels-photo-28291092/free-photo-of-a-squirrel-climbing-up-a-tree-in-the-woods.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')` }}>
