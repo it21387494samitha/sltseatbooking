@@ -5,7 +5,7 @@ import { Card, CardContent, CardActionArea, Typography, Grid, Container, Alert, 
 
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EventIcon from '@mui/icons-material/Event';
-import img1 from '../../Assest/noevent.png'
+import img1 from '../../Asset/noevent.png';
 
 
 const EventList = () => {
@@ -17,7 +17,7 @@ const EventList = () => {
     const fetchEvents = async () => {
       try {
         const token = localStorage.getItem('token');
-const response = await axios.get('http://localhost:5000/events/', {
+const response = await axios.get('https://sltseatreservation.azurewebsites.net/events/', {
   headers: {
     Authorization: `Bearer ${token}`,
   },

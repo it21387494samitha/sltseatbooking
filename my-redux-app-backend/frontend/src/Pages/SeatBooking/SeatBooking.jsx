@@ -20,7 +20,7 @@ const SeatBooking = () => {
   const fetchSeatsAndEvent = async () => {
     try {
       const seatResponse = await axios.get(
-        `http://localhost:5000/api/seats/event/${eventId}/seats`,
+        `https://sltseatreservation.azurewebsites.net/api/seats/event/${eventId}/seats`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -30,7 +30,7 @@ const SeatBooking = () => {
       setSeats(seatResponse.data);
 
       const eventResponse = await axios.get(
-        `http://localhost:5000/events/${eventId}`,
+        `https://sltseatreservation.azurewebsites.net/events/${eventId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -49,7 +49,7 @@ const SeatBooking = () => {
   const handleSeatReservation = async () => {
     try {
       await axios.post(
-        `http://localhost:5000/api/seats/reserve/${eventId}/${selectedSeat}`,
+        `https://sltseatreservation.azurewebsites.net/api/seats/reserve/${eventId}/${selectedSeat}`,
         {},
         {
           headers: {
@@ -83,7 +83,7 @@ const SeatBooking = () => {
   const submitFeedback = async () => {
     try {
       await axios.post(
-        'http://localhost:5000/api/feedback',
+        'https://sltseatreservation.azurewebsites.net/api/feedback',
         { feedback },
         {
           headers: {

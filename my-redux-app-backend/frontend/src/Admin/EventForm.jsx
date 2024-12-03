@@ -114,7 +114,7 @@ const EventForm = () => {
       const token = localStorage.getItem('token');
 
       const response = await axios.post(
-        'http://localhost:5000/events/',
+        'https://sltseatreservation.azurewebsites.net/events/',
         formData,
         {
           headers: {
@@ -145,7 +145,7 @@ const EventForm = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'http://localhost:5000/api/seats/creat',  // Corrected the URL here
+        'https://sltseatreservation.azurewebsites.net/api/seats/creat',  // Corrected the URL here
         {
           eventId,
           rows: seatData.rows.split(','), // Split the rows into an array
@@ -174,7 +174,7 @@ const EventForm = () => {
     const fetchExistingEvents = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/events', {
+        const response = await axios.get('https://sltseatreservation.azurewebsites.net/events', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

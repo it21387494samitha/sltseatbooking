@@ -16,7 +16,7 @@ const AdminSeatBooking = () => {
         const fetchSeats = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get('http://localhost:5000/api/seats/seats', {
+                const response = await axios.get('https://sltseatreservation.azurewebsites.net/api/seats/seats', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -38,7 +38,7 @@ const AdminSeatBooking = () => {
         if (window.confirm('Are you sure you want to delete this seat?')) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:5000/api/seats/seats/${id}`, {
+                await axios.delete(`https://sltseatreservation.azurewebsites.net/api/seats/seats/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

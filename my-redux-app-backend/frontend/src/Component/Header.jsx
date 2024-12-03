@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../Assest/SLT_logo.png'; 
+import Logo from '../Asset/SLT_logo.png'; 
 import { FaSearch, FaBars, FaHome, FaInfoCircle, FaServicestack, FaEnvelope } from 'react-icons/fa'; 
 
 const Header = ({ toggleSidebar, isOpen, isDarkMode, toggleTheme }) => {

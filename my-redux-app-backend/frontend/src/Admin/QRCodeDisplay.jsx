@@ -17,7 +17,7 @@ const QRCodeDisplay = () => {
     const fetchEvents = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/events/allad', {
+        const response = await axios.get('https://sltseatreservation.azurewebsites.net/events/allad', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -55,7 +55,7 @@ const QRCodeDisplay = () => {
   const handleDeleteClick = async (eventId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/events/soft/${eventId}`, {
+      await axios.delete(`https://sltseatreservation.azurewebsites.net/events/soft/${eventId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
