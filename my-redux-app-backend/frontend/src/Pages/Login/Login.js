@@ -26,7 +26,7 @@ function LoginPage() {
     setErrorMessage('');
 
     try {
-      const response = await axios.post('http://localhost:5000/users/login', {
+      const response = await axios.post('https://newsltazure.azurewebsites.net/users/login', {
         email,
         password,
       });
