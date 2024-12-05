@@ -26,7 +26,7 @@ const EditEvent = () => {
     const fetchEventData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:5000/events/${eventId}`, {
+        const response = await axios.get(`https://newslt123.azurewebsites.net/events/${eventId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -53,7 +53,7 @@ const EditEvent = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.put(`http://localhost:5000/events/${eventId}`, eventData, {
+      const response = await axios.put(`https://newslt123.azurewebsites.net/events/${eventId}`, eventData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -10,7 +10,7 @@ function ManageEvents() {
  const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/events')
+    axios.get('https://newslt123.azurewebsites.net/api/events')
       .then(response => {
         setEvents(response.data);
         setLoading(false);

@@ -17,7 +17,7 @@ const EventList = () => {
     const fetchEvents = async () => {
       try {
         const token = localStorage.getItem('token');
-const response = await axios.get('http://localhost:5000/events/', {
+const response = await axios.get('https://newslt123.azurewebsites.net/events/', {
   headers: {
     Authorization: `Bearer ${token}`,
   },
