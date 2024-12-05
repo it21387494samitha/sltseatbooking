@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+
+import { Link} from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import './Login.css';
@@ -10,40 +10,16 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate();
+
+
 
   const handleGoogleLogin = () => {
-    window.open('https://newslt123.azurewebsites.net/auth/google', '_self');
+    window.open('http://localhost:5000/auth/google', '_self');
+
   };
 
   const handleEmailLogin = async () => {
-    if (!email || !password) {
-      setErrorMessage('Please fill in all fields');
-      return;
-    }
 
-    setLoading(true);
-    setErrorMessage('');
-    try {
-      const response = await axios.post('https://newslt123.azurewebsites.net/users/login', {
-        email,
-        password,
-      });
-
-      // Store token and user in localStorage
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-
-      alert('Login successful');
-      navigate('/dashboard'); // Redirect to dashboard or desired page
-    } catch (error) {
-      const message = error.response?.data?.message || 'An error occurred. Please try again.';
-      setErrorMessage(message);
-      console.error('Login error:', message);
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (

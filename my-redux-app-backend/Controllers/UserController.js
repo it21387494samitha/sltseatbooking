@@ -27,85 +27,80 @@ const isGoogleEmail = (email) => {
 
 
 
-// Register User
-export function RegisterUser(req, res) {
-    const { firstName, lastName, phone, email, age, subscription, password, isAdmin } = req.body;
-
-    // Debug log to check request body data
-    console.log('Registering user with:', req.body);
-
-    if (!firstName || !lastName || !phone || !email || !age || !password) {
-        return res.status(400).json({ message: "All fields are required." });
-    }
-
-    if (!isGoogleEmail(email)) {
-        return res.status(400).json({ message: "Please use a valid Google email (e.g., @gmail.com)." });
-    }
-
-    if (!email || typeof email !== 'string' || email.trim() === '') {
-        return res.status(400).json({ message: "Email cannot be null or empty." });
-    }
-
-    UserModel.findOne({ email })
-        .then(existingUser => {
-            if (existingUser) {
-                return res.status(400).json({ message: "Email already registered." });
-            }
-
-            bcrypt.hash(password, 10, (err, hash) => {
-                if (err) {
-                    return res.status(500).json({ message: "Error hashing password", error: err });
-                }
-
-                const newUser = new UserModel({
-                    firstName,
-                    lastName,
-                    phone,
-                    email,
-                    age,
-                    subscription,
-                    password: hash,
-                    isAdmin: isAdmin || false,
-                    
-                });
-
-                newUser.save()
-                    .then(response => {
-                        res.status(201).json(response);
-                        console.log("User successfully registered");
-                    })
-                    .catch(err => {
-                        if (err.code === 11000) {
-                            res.status(400).json({ message: "Duplicate email entry." });
-                        } else {
-                            res.status(500).json({ message: "Error saving user", error: err });
-                        }
-                        console.log(err);
-                    });
-            });
-        })
-        .catch(err => res.status(500).json({ message: "Error checking user existence", error: err }));
-}
-
-
-
-
-// User Login
-export const UserLogin = async (req, res) => {
-    const { email, password } = req.body;
+export const Register = async (req, res) => {
     try {
-      const user = await UserModel.findOne({ email });
-      if (!user) return res.status(400).json({ message: 'User not found' });
-  
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
-  
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-      res.json({ token });
+        const { username, email, password } = req.body;
+
+        // Check if the user already exists
+        const existingUser = await UserModel.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email already registered' });
+        }
+
+        // Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Create new user
+        const newUser = new UserModel({
+            username,
+            email,
+            password: hashedPassword,
+        });
+
+        await newUser.save();
+
+        res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
-      res.status(500).json({ message: 'Error logging in user' });
+        console.error('Error during registration:', error);
+        res.status(500).json({ message: 'Server error during registration' });
     }
-  };
+};
+
+
+
+
+
+export const Login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Check if the user exists
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Compare the password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid email or password' });
+        }
+
+        // Generate a JWT token
+        const token = jwt.sign(
+            { id: user._id, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: '1d' }
+        );
+
+        res.status(200).json({
+            message: 'Login successful',
+            token,
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                profilePicture: user.profilePicture,
+                role: user.role
+            }
+        });
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).json({ message: 'Server error during login' });
+    }
+};
+
 
 
 export function CreateAdmin(req, res) {
